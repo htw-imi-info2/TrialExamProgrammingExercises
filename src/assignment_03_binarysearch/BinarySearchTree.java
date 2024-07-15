@@ -21,7 +21,10 @@ public class BinarySearchTree<K extends Comparable<K>,V> extends Tree<K,V>{
 		// c == 0 => key1 and key2 are equal
 		// c < 0  => key1 < key2
 		// c > 0  => key2 > key2
-		
+
+		// Start at the root....
+
+		Node<K,V> node = root;
 
 		return null;
 	}

@@ -33,4 +33,29 @@ public class BinarySearchTest {
 		assertEquals(null, d);
 	}
 
+	@Test
+	public void testFindInMidTree() {
+		String[] alphabet = "a b c d e".split(" ");
+		for (int i = 0; i < alphabet.length; i++) {
+			tree.insert(alphabet[i]);
+		}
+		String[] searchFor = "a b c d e".split(" ");
+		for (String key : searchFor) {
+			Node<String, Object> foundNode = tree.find(key);
+			assertEquals(key, foundNode.getKey());
+		}
+	}
+	@Test
+	public void testFindInBiggerTree() {
+		String[] alphabet = "a b c d e f g h i j k l m n o p q r s t u v w x y z".split(" ");
+		for (int i = 0; i < alphabet.length; i++) {
+			tree.insert(alphabet[i]);
+		}
+		String[] searchFor = "p a z".split(" ");
+		for (String key : searchFor) {
+			Node<String, Object> foundNode = tree.find(key);
+			assertEquals(key, foundNode.getKey());
+		}
+	}
+
 }

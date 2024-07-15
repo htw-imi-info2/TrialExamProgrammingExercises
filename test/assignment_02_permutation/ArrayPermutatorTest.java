@@ -10,21 +10,76 @@ import org.junit.jupiter.api.Test;
 
 public class ArrayPermutatorTest {
 
-	public static final int SEED = 42;
+	public static final int SEED = 422;
+	ArrayPermutator<Integer> integerPermutator;
+	ArrayPermutator<String> stringPermutator;
+	@BeforeEach
+	public void setUp() {
+
+		integerPermutator = new ArrayPermutator<>();
+		stringPermutator = new ArrayPermutator<>();
+		// inject a random generator with a specific seed to
+		// get a pseudorandom sequence to make the Permutator
+		// testable
+		integerPermutator.random = new Random(SEED);
+		stringPermutator.random = new Random(SEED);
+	}
 
 
 	@Test
-	public void testShuffleInts() {
-		ArrayPermutator<Integer> sut = new ArrayPermutator<>(new Random(SEED));
+	public void test1OneElement() {
+		String[] a = { "a" };
+		
+		stringPermutator.shuffle(a);
+		
+		String[] expected = { "a" };
+		assertArrayEquals(expected, a);
+	}
+	@Test
+	public void test0EmptyArray() {
+		String[] a = { };
+
+		stringPermutator.shuffle(a);
+		
+		String[] expected = { };
+		assertArrayEquals(expected, a);
+	}
+
+	@Test
+	public void test2TwoElements() {
+		Integer[] a = new Integer[] { 4, 7 };
+		Integer[] original = Arrays.copyOf(a, a.length);
+		
+		Integer[] expected_b = new Integer[] { 4, 7 };
+		Integer[] expected_f = new Integer[] { 7, 4 };
+	
+		integerPermutator.shuffle(a);
+		assertShuffle(a, original, expected_b, expected_f, "testTwoElements");
+	}
+
+	@Test
+	public void test3ThreeElements() {
+		Integer[] a = new Integer[] { 84, 12, 9 };
+		Integer[] original = Arrays.copyOf(a, a.length);
+
+		Integer[] expected_b = new Integer[] { 12, 9, 84 };
+		Integer[] expected_f = new Integer[] { 9, 12, 84 };
+
+		integerPermutator.shuffle(a);
+		assertShuffle(a, original, expected_b, expected_f, "testTwoElements");
+	}
+
+	@Test
+	public void test8ShuffleInts() {
 		Integer[] a = new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 		Integer[] original = Arrays.copyOf(a, a.length);
 
-		sut.shuffle(a);
-		
+		integerPermutator.shuffle(a);
+
 		// there are two ways to implement the shuffle - starting from the start
 		// and starting from the beginning. Both are ok, these are the two possible
-		// results:
-		Integer[] expected_b = new Integer[] { 5, 8, 3, 1, 2, 6, 4, 10, 9, 7 };
+		// results (with the fixed random generator:
+		Integer[] expected_b = new Integer[] { 9, 10, 5, 3, 6, 4, 8, 7, 2, 1 };
 		Integer[] expected_f = new Integer[] { 7, 10, 9, 1, 2, 4, 6, 5, 3, 8};
 
 		// assertShuffle is a convenience method providing richer feedback
@@ -32,55 +87,18 @@ public class ArrayPermutatorTest {
 	}
 
 	@Test
-	public void testShuffleStrings() {
+	public void test9ShuffleStrings() {
 		String[] a = "a b c d e f g h i j k l m n o p".split(" ");
-		ArrayPermutator<String> sut = new ArrayPermutator<>(new Random(SEED));
+
 		String[] original = Arrays.copyOf(a, a.length);
 
-		sut.shuffle(a);
-		
+		stringPermutator.shuffle(a);
+
 		String[] expected_f = "l, m, n, o, j, c, d, p, i, h, g, f, e, a, k, b".split(", ");
-		String[] expected_b = "b, m, h, d, c, e, g, a, j, k, i, f, n, o, p, l".split(", ");
-		
+		String[] expected_b = "m, p, d, l, j, g, f, h, e, k, i, c, n, o, b, a".split(", ");
+
 		assertShuffle(a, original, expected_b, expected_f, "testShuffleStrings");
 	}
-
-	@Test
-	public void testOneElement() {
-		String[] a = { "a" };
-		ArrayPermutator<String> sut = new ArrayPermutator<>(new Random(SEED));
-		
-		sut.shuffle(a);
-		
-		String[] expected = { "a" };
-		assertArrayEquals(expected, a);
-	}
-	@Test
-	public void testEmptyArray() {
-		String[] a = { };
-		ArrayPermutator<String> sut = new ArrayPermutator<>(new Random(SEED));
-		
-		sut.shuffle(a);
-		
-		String[] expected = { };
-		assertArrayEquals(expected, a);
-	}
-
-	@Test
-	public void testTwoElements() {
-		ArrayPermutator<Integer> sut = new ArrayPermutator<>(new Random(SEED));
-		Integer[] a = new Integer[] { 4, 7 };
-		Integer[] original = Arrays.copyOf(a, a.length);
-		
-		Integer[] expected_b = new Integer[] { 4, 7 };
-		Integer[] expected_f = new Integer[] { 7, 4 };
-	
-		sut.shuffle(a);
-		assertShuffle(a, original, expected_b, expected_f, "testTwoElements");
-
-	
-	}
-
 	
 
 	private void assertShuffle(Object[] a, Object[] original, Object[] expected_b, Object[] expected_f,

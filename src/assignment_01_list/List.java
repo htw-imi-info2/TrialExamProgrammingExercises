@@ -3,8 +3,10 @@ package assignment_01_list;
 /**
  * Assignment 01: 
  *
- * This class implements a quite simple linked list.
+ * This class implements a simple linked list.
  * Your assignment is to implement the getIndex() method.
+ * It should return the index of the element in the list,
+ * starting with "0"
  * 
  */
 public class List<E> {
@@ -13,7 +15,7 @@ public class List<E> {
 	
 	/**
 	 * Returns the position of the first occurrence of data
-	 * in the linked list, starting at 1.
+	 * in the linked list, starting at 0.
 	 * 
 	 * It should return -1 if
 	 * - null is passed as an argument
@@ -26,7 +28,7 @@ public class List<E> {
 	 */
 	public int getIndex(E data){
 		// replace with your code
-		return -1;
+		return -2;
 		
 	}
 	/**

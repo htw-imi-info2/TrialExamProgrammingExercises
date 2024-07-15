@@ -1,5 +1,10 @@
 package assignment_01_list;
 
+/**
+ * A List Node.
+ * Nothing to do here.
+ *
+ */
 public class Node<E> {
 	   protected E data;
 	   protected Node<E> next;
