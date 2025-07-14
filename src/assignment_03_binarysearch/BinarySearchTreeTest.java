@@ -83,7 +83,7 @@ public class BinarySearchTreeTest {
 				Arguments.of(
 						"a b c d e f g h i j k l m n o p q r s t u v w x y z".split(" "),
 						new String[]{"p", "a", "z"},
-						new String[]{"o", "b", "y"},  // Adjust depending on tree structure
+						new String[]{"o", null, "y"},
 						"Large tree: search for a, p, and z"
 				)
 		);
