@@ -26,7 +26,8 @@ public class BinarySearchTree<K extends Comparable<K>,V> extends Tree<K,V>{
 
 		Node<K,V> node = root;
 
-		return null;
+
+		return node;
 	}
 
 }

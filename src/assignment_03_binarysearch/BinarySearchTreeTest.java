@@ -4,19 +4,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import settings.TestParameter;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.*;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BinarySearchTest {
+
+public class BinarySearchTreeTest {
 
 	BinarySearchTree<String, Object> tree;
 
 	@BeforeEach
-	public void setUp() {
+	public void setUpBaseTree() {
 		tree = new BinarySearchTree<>();
 		tree.insert("b");
 		tree.insert("c");
@@ -24,8 +24,8 @@ public class BinarySearchTest {
 	}
 
 	@ParameterizedTest(name = "{3}")
-	@MethodSource("allTestCases")
-	void testCases(String[] insertKeys, String[] searchKeys, String[] expectedParents, String description) {
+	@MethodSource("selectedTestCases")
+	void testBinaryTreeSearch(String[] insertKeys, String[] searchKeys, String[] expectedParents, String description) {
 		BinarySearchTree<String, Object> tree = new BinarySearchTree<>();
 		for (String key : insertKeys) {
 			tree.insert(key);
@@ -39,13 +39,17 @@ public class BinarySearchTest {
 		}
 	}
 
-	private static Stream<Arguments> testCases() {
-		int limit = 1; 	// Just the first test case to start
-		// limit = 2; 	// all up to 3 elements
-		// limit = 3; 	// all up to 5 elements
-		// limit = 4; 	// all
+	private static Stream<Arguments> selectedTestCases() {
+		if (TestParameter.ALWAYS_RUN_ALL_TESTS)
+			return allTestCases();
+		else {
+			int limit = 1;    // Just the first test case to start
+			// 	limit = 2; 	// all up to 3 elements
+			// 	limit = 3; 	// all up to 5 elements
+			// 	limit = 4; 	// all
 
-		return allTestCases().limit(limit);
+			return allTestCases().limit(limit);
+		}
 	}
 
 

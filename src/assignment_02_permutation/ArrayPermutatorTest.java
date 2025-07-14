@@ -1,18 +1,17 @@
 package assignment_02_permutation;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.Arguments;
+import settings.TestParameter;
 
 import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ArrayPermutatorTest {
 
 	public static final int SEED = 422;
@@ -28,10 +27,10 @@ public class ArrayPermutatorTest {
 	}
 
 	@ParameterizedTest(name = "{index}: {4}")
-	@MethodSource("testCases")
+	@MethodSource("selectedTestCases")
 	<T> void testShuffle(T[] input, T[] expected_b, T[] expected_f, Class<?> type, String description) {
 		T[] array = Arrays.copyOf(input, input.length);
-		T[] original = Arrays.copyOf(array, array.length);
+		T[] original = Arrays.copyOf(input, input.length);
 
 		if (type == Integer.class) {
 			integerPermutator.shuffle((Integer[]) array);
@@ -48,14 +47,18 @@ public class ArrayPermutatorTest {
 		}
 	}
 
-	private static Stream<Arguments> testCases() {
-		int limit = 1; // Just the first test case to start (Empty Array)
-		//limit = 2; // all up to 1 element
-		//limit = 3; // all up to 2 elements
-		//limit = 4; // all up to 3 elements
-		//limit = 6; // all
+	private static Stream<Arguments> selectedTestCases() {
+		if (TestParameter.ALWAYS_RUN_ALL_TESTS)
+			return allTestCases();
+		else {
+			int limit = 1; // Just the first test case to start (Empty Array)
+			//limit = 2; // all up to 1 element
+			//limit = 3; // all up to 2 elements
+			//limit = 4; // all up to 3 elements
+			//limit = 6; // all
 
-		return allTestCases().limit(limit);
+			return allTestCases().limit(limit);
+		}
 	}
 
 	private static Stream<Arguments> allTestCases() {

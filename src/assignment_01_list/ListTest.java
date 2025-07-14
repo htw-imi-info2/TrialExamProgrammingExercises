@@ -1,16 +1,15 @@
 package assignment_01_list;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
-
+import settings.TestParameter;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 public class ListTest {
 	List<String> list;
 
@@ -20,7 +19,7 @@ public class ListTest {
 	}
 
 	@ParameterizedTest(name = "{index}: {3}")
-	@MethodSource("testCases")
+	@MethodSource("selectedTestCases")
 	void testGetIndex(String[] itemsToAdd, String target, int expectedIndex, String description) {
 		for (String item : itemsToAdd) {
 			list.add(item);
@@ -29,13 +28,17 @@ public class ListTest {
 		assertEquals(expectedIndex, actual, "Failed test: " + description);
 	}
 
-	private static Stream<Arguments> testCases() {
-		int limit = 1; 	// Just the first test case to start (Empty List)
-		 //limit = 2;   	// all up to 1 element
-		 //limit = 4;   	// empty, one, middle, last elements
-		 //limit = 5;  	// all
+	private static Stream<Arguments> selectedTestCases() {
+		if (TestParameter.ALWAYS_RUN_ALL_TESTS)
+			return allTestCases();
+		else {
+			int limit = 1;    // Just the first test case to start (Empty List)
+			//limit = 2;   	// all up to 1 element
+			//limit = 4;   	// empty, one, middle, last elements
+			//limit = 5;  	// all
 
-		return allTestCases().limit(limit);
+			return allTestCases().limit(limit);
+		}
 	}
 
 	private static Stream<Arguments> allTestCases() {
