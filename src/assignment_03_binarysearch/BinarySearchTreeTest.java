@@ -13,79 +13,83 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BinarySearchTreeTest {
 
-	BinarySearchTree<String, Object> tree;
-
-	@BeforeEach
-	public void setUpBaseTree() {
-		tree = new BinarySearchTree<>();
-		tree.insert("b");
-		tree.insert("c");
-		tree.insert("a");
-	}
-
-	@ParameterizedTest(name = "{3}")
-	@MethodSource("selectedTestCases")
-	void testBinaryTreeSearch(String[] insertKeys, String[] searchKeys, String[] expectedParents, String description) {
-		BinarySearchTree<String, Object> tree = new BinarySearchTree<>();
-		for (String key : insertKeys) {
-			tree.insert(key);
-		}
-
-		for (int i = 0; i < searchKeys.length; i++) {
-			String key = searchKeys[i];
-			Node<String, Object> node = tree.find(key);
-			String actualParent = (node == null || node.parent == null) ? null : node.parent.getKey();
-			assertEquals(expectedParents[i], actualParent);
-		}
-	}
-
-	private static Stream<Arguments> selectedTestCases() {
-		if (TestParameter.ALWAYS_RUN_ALL_TESTS)
-			return allTestCases();
-		else {
-			int limit = 1;    // Just the first test case to start
-			// 	limit = 2; 	// all up to 3 elements
-			// 	limit = 3; 	// all up to 5 elements
-			// 	limit = 4; 	// all
-
-			return allTestCases().limit(limit);
-		}
-	}
+    @ParameterizedTest(name = "{4} {1}")
+    @MethodSource("selectedTestCases")
+    void testBinaryTreeSearch(String[] insertKeys, String key, String expectedKey, String expectedParent, String description) {
+        BinarySearchTree<String, Object> tree = new BinarySearchTree<>();
+        for (String k : insertKeys) {
+            tree.insert(k);
+        }
 
 
-	private static Stream<Arguments> allTestCases() {
-		return Stream.of(
-				// === non-existent node ===
-				Arguments.of(
-						new String[]{"b", "c", "a"},
-						new String[]{"d"},
-						new String[]{null},
-						"Search for non-existent key 'd'"
-				),
+        Node<String, Object> node = tree.find(key);
+        String actualParent = (node == null || node.parent == null) ? null : node.parent.getKey();
+        if (expectedKey == null)
+            assertEquals(null,node);
+        else
+            assertEquals(key, node.getKey());
+        // check parent to ensure that the correct node was found
+        assertEquals(expectedParent, actualParent);
 
-				// === three-node tree ===
-				Arguments.of(
-						new String[]{"b", "c", "a"},       	// insert
-						new String[]{"a", "b", "c"},       				// search
-						new String[]{"b", null, "b"},      				// expected parents
-						"Basic tree: verify parent links for a, b, c"
-				),
+    }
 
-				// === five-node tree ===
-				Arguments.of(
-						new String[]{"a", "b", "c", "d", "e"},
-						new String[]{"a", "b", "c", "d", "e"},
-						new String[]{null, "a", "b", "c", "d"},
-						"Small tree: left-to-right insertions"
-				),
+    private static Stream<Arguments> selectedTestCases() {
+        if (TestParameter.ALWAYS_RUN_ALL_TESTS)
+            return allTestCases();
+        else {
+            int limit = 1;    // Just the first test case to start
+             //	limit = 4; 	// Basic tree
+            //	limit = 10; 	// five-node tree
+            //	limit = 16; 	// five-node tree balanced
+            //	limit = 19; 	// all
+             limit = 40;
+            return allTestCases().limit(limit);
+        }
+    }
 
-				// === large tree ===
-				Arguments.of(
-						"a b c d e f g h i j k l m n o p q r s t u v w x y z".split(" "),
-						new String[]{"p", "a", "z"},
-						new String[]{"o", null, "y"},
-						"Large tree: search for a, p, and z"
-				)
-		);
-	}
+
+    private static Stream<Arguments> allTestCases() {
+        return Stream.of(
+
+                // === empty tree ===
+                Arguments.of(new String[]{}, "d", null, null, "Search in empty tree - "),
+
+                // === one element tree ===
+                Arguments.of(new String[]{"x"}, "x", "x", null, "one element tree - "),
+                Arguments.of(new String[]{"x"}, "y", null, null, "one element tree - "),
+
+                // === non-existent node ===
+                Arguments.of(new String[]{"b", "c", "a"}, "d", null, null, "Search for non-existent key "),
+
+                // === three-node tree ===
+                Arguments.of(new String[]{"b", "c", "a"},"a","a", "b", "Basic tree: verify parent links for"),      // insert
+                Arguments.of(new String[]{"b", "c", "a"},"b","b", null, "Basic tree: verify parent links for"),      // insert
+                Arguments.of(new String[]{"b", "c", "a"},"c","c", "b", "Basic tree: verify parent links for"),      // insert
+
+
+                // === five-node tree ===
+                Arguments.of(new String[]{"a", "b", "c", "d", "e"},"a","a",null, "five-node tree - searching for "),
+                Arguments.of(new String[]{"a", "b", "c", "d", "e"},"b","b","a", "five-node tree - searching for "),
+                Arguments.of(new String[]{"a", "b", "c", "d", "e"},"c","c","b", "five-node tree - searching for "),
+                Arguments.of(new String[]{"a", "b", "c", "d", "e"},"d","d","c", "five-node tree - searching for "),
+                Arguments.of(new String[]{"a", "b", "c", "d", "e"},"e","e","d", "five-node tree - searching for "),
+                Arguments.of(new String[]{"a", "b", "c", "d", "e"},"b","b","a", "five-node tree - searching for "),
+                Arguments.of(new String[]{"a", "b", "c", "d", "e"},"g",null, null, "five-node tree - not in tree / searching for "),
+
+                // === five-node tree ===
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"a","a","b", "balanced five-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"d","d",null, "balanced five-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"b","b","d", "balanced five-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"e","e","f", "balanced five-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"g","g","f", "balanced five-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"f","f","d", "balanced five-node tree - searching for "),
+
+
+
+                // === large tree ===
+                Arguments.of("a b c d e f g h i j k l m n o p q r s t u v w x y z".split(" "),"p","p","o","Large tree: search for "),
+                Arguments.of("a b c d e f g h i j k l m n o p q r s t u v w x y z".split(" "),"a","a", null,"Large tree: search for "),
+                Arguments.of("a b c d e f g h i j k l m n o p q r s t u v w x y z".split(" "),"z","z","y","Large tree: search for "));
+
+    }
 }
