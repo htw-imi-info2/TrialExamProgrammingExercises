@@ -1,7 +1,6 @@
 package assignment_02_permutation;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,15 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ArrayPermutatorTest {
 
 	public static final int SEED = 422;
-	ArrayPermutator<Integer> integerPermutator;
-	ArrayPermutator<String> stringPermutator;
+	ArrayPermutator permutator;
 
 	@BeforeEach
 	public void setUp() {
-		integerPermutator = new ArrayPermutator<>();
-		stringPermutator = new ArrayPermutator<>();
-		integerPermutator.random = new Random(SEED);
-		stringPermutator.random = new Random(SEED);
+		permutator = new ArrayPermutator();
+		permutator.random = new Random(SEED);
 	}
 
 	@ParameterizedTest(name = "{index}: {4}")
@@ -32,13 +28,7 @@ public class ArrayPermutatorTest {
 		T[] array = Arrays.copyOf(input, input.length);
 		T[] original = Arrays.copyOf(input, input.length);
 
-		if (type == Integer.class) {
-			integerPermutator.shuffle((Integer[]) array);
-		} else if (type == String.class) {
-			stringPermutator.shuffle((String[]) array);
-		} else {
-			fail("Unsupported type: " + type);
-		}
+		permutator.shuffle(array);
 
 		if (expected_b == null && expected_f == null) {
 			assertArrayEquals(input, array, "Expected no change for " + description);

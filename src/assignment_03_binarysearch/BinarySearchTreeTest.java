@@ -37,12 +37,13 @@ public class BinarySearchTreeTest {
         if (TestParameter.ALWAYS_RUN_ALL_TESTS)
             return allTestCases();
         else {
-            int limit = 1;    // Just the first test case to start
-             //	limit = 4; 	// Basic tree
-            //	limit = 10; 	// five-node tree
-            //	limit = 16; 	// five-node tree balanced
-            //	limit = 19; 	// all
-             limit = 40;
+            int limit = 1;    // empty tree
+             //	limit = 3; 	   // one element tree
+             //	limit = 7;  	// Basic tree
+            //	limit = 13; 	// five-node tree
+            //	limit = 19; 	// balanced seven
+            //	limit = 23; 	// all
+
             return allTestCases().limit(limit);
         }
     }
@@ -73,16 +74,15 @@ public class BinarySearchTreeTest {
                 Arguments.of(new String[]{"a", "b", "c", "d", "e"},"c","c","b", "five-node tree - searching for "),
                 Arguments.of(new String[]{"a", "b", "c", "d", "e"},"d","d","c", "five-node tree - searching for "),
                 Arguments.of(new String[]{"a", "b", "c", "d", "e"},"e","e","d", "five-node tree - searching for "),
-                Arguments.of(new String[]{"a", "b", "c", "d", "e"},"b","b","a", "five-node tree - searching for "),
                 Arguments.of(new String[]{"a", "b", "c", "d", "e"},"g",null, null, "five-node tree - not in tree / searching for "),
 
-                // === five-node tree ===
-                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"a","a","b", "balanced five-node tree - searching for "),
-                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"d","d",null, "balanced five-node tree - searching for "),
-                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"b","b","d", "balanced five-node tree - searching for "),
-                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"e","e","f", "balanced five-node tree - searching for "),
-                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"g","g","f", "balanced five-node tree - searching for "),
-                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"f","f","d", "balanced five-node tree - searching for "),
+                // === balanced seven-node tree ===
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"a","a","b", "balanced seven-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"d","d",null,"balanced seven-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"b","b","d", "balanced seven-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"e","e","f", "balanced seven-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"g","g","f", "balanced seven-node tree - searching for "),
+                Arguments.of(new String[]{"d", "b", "a", "c", "f", "e", "g"},"f","f","d", "balanced seven-node tree - searching for "),
 
 
 
