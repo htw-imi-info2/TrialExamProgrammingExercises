@@ -28,7 +28,7 @@ public class List<E> {
 	 */
 	public int getIndex(E data){
 		// replace with your code
-		return -2;
+		return -1;
 		
 	}
 	/**
