@@ -27,8 +27,10 @@ public class List<E> {
 	 * @param E data - the data to search for
 	 */
 	public int getIndex(E data){
+		if (first == null)
+			return -1;
 		// replace with your code
-		return -1;
+		return 1;
 		
 	}
 	/**
