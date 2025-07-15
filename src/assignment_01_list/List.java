@@ -30,7 +30,14 @@ public class List<E> {
 		if (first == null)
 			return -1;
 		// replace with your code
+		Node <E> current = first;
+		if (current.data.equals(data))
 		return 1;
+		current = current.next;
+		if (current.data.equals(data))
+			return 2;
+		else return -1;
+
 		
 	}
 	/**
