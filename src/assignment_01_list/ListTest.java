@@ -63,7 +63,7 @@ public class ListTest {
 				Arguments.of(
 						new String[]{"e", "d", "c", "b", "a"},
 						"d",
-						4,
+						4, // from the back!
 						"Middle element: getIndex('d') should return 4"
 				),
 

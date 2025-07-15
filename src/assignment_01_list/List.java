@@ -6,7 +6,7 @@ package assignment_01_list;
  * This class implements a simple linked list.
  * Your assignment is to implement the getIndex() method.
  * It should return the index of the element in the list,
- * starting with "0"
+ * starting with "1"
  * 
  */
 public class List<E> {
