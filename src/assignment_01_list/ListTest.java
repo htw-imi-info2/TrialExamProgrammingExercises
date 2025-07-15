@@ -36,7 +36,7 @@ public class ListTest {
 			//limit = 2;   	// all up to 1 element
 			//limit = 4;   	// empty, one, middle, last elements
 			//limit = 5;  	// all
-
+			limit = 3;
 			return allTestCases().limit(limit);
 		}
 	}
@@ -52,12 +52,14 @@ public class ListTest {
 				),
 
 				// === One element ===
-				Arguments.of(
-						new String[]{"a"},
-						"a",
-						1,
-						"One element list: getIndex('a') should return 1"
-				),
+				Arguments.of(new String[]{"a"}, "a", 1, "One element list: getIndex('a') should return 1"),
+				Arguments.of(new String[]{"a"}, "b", -1, "one element, not in list"),
+				Arguments.of(new String[]{"b","a"}, "b", 2, "two elements, second list"),
+				Arguments.of(new String[]{"b","a"}, "a", 1, "two elements, first list"),
+				Arguments.of(new String[]{"b","a"}, "c", -1, "two elements, not in list"),
+				Arguments.of(new String[]{"c","b","a"}, "d", -1, "three elements, not in list"),
+				Arguments.of(new String[]{"c","b","a"}, "b", 2, "three elements,  in list"),
+				Arguments.of(new String[]{"c","b","a"}, "c", 3, "three elements,  in list"),
 
 				// === Middle element ===
 				Arguments.of(
